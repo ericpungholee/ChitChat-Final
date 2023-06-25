@@ -1,0 +1,116 @@
+{% extends "layout.html" %}
+{% block content%}
+<style>
+    .profile-section {
+        display: flex;
+        align-items: center;
+        margin-bottom: 20px;
+    }
+
+    .profile-pic {
+        width: 150px;
+        height: 150px;
+        margin-right: 20px;
+    }
+
+    .accounting-heading {
+        margin-bottom: 0;
+    }
+
+    .profile {
+        margin-left: 200px;
+        padding: 20px;
+        color: #fff;
+    }
+
+    .profile::-webkit-scrollbar {
+        width: 8px;
+        background-color: #222;
+    }
+
+    .profile::-webkit-scrollbar-thumb {
+        background-color: #888;
+    }
+
+    .profile::-webkit-scrollbar-thumb:hover {
+        background-color: #555;
+    }
+
+    .update {
+        color: #4e4e4e;
+        text-decoration: none;
+        padding: 10px 20px;
+        border-radius: 20px;
+        transition: background-color 0.3s ease;
+    }
+
+    .update:hover {
+        background-color: #333;
+        color: #fff;
+        text-decoration: none;
+    }
+</style>
+<div class="profile" style="height: 750px; overflow-y: auto;">
+    <div class="profile-section">
+        <img class="rounded-circle article-img img-fluid profile-pic" src="{{ image_file }}" alt="user profile picture">
+        <div>
+            <h2 class="mt-0 accounting-heading">{{ current_user.username }}</h2>
+            <p class="text-secondary">{{ current_user.email }}</p>
+        </div>
+    </div>
+
+    <div class="card-body d-flex align-items-center">
+        <form method="POST" action="" enctype="multipart/form-data">
+            {{ form.hidden_tag() }}
+            <fieldset class="form-group">
+                <legend class="border-bottom mb-4">Account Info</legend>
+                <div class="form-group">
+                    <label class="col-form-label">{{ form.username.label }}</label>
+                    {% if form.username.errors %}
+                    {{ form.username(class="form-control form-control-lg is-invalid") }}
+                    <div class="invalid-feedback">
+                        {% for error in form.username.errors %}
+                        <span>{{ error }}</span>
+                        {% endfor %}
+                    </div>
+                    {% else %}
+                    {{ form.username(class="form-control form-control-lg") }}
+                    {% endif %}
+                </div>
+                <div class="form-group">
+                    <label class="col-form-label">{{ form.email.label }}</label>
+                    {% if form.email.errors %}
+                    {{ form.email(class="form-control form-control-lg is-invalid") }}
+                    <div class="invalid-feedback">
+                        {% for error in form.email.errors %}
+                        <span>{{ error }}</span>
+                        {% endfor %}
+                    </div>
+                    {% else %}
+                    {{ form.email(class="form-control form-control-lg") }}
+                    {% endif %}
+                </div>
+                <div class="form-group">
+                    <label class="col-form-label">{{ form.picture.label }}</label>
+                    <br />
+                    <img class="mr-3 rounded-circle article-img img-fluid profile-pic" src="{{ image_file }}"
+                        alt="user profile picture">
+                    <br />
+                    <br />
+                    {{ form.picture(class="form-control-file") }}
+                    <small>Please make sure the file type is either jpg or png.</small>
+                    {% if form.picture.errors %}
+                    {% for error in form.picture.errors %}
+                    <span class="text-danger">{{ error }}</span>
+                    {% endfor %}
+                    {% endif %}
+                </div>
+            </fieldset>
+            <div class="form-group">
+                {{ form.submit(class="update") }}
+            </div>
+        </form>
+    </div>
+</div>
+
+{% endblock content%}

@@ -1,0 +1,91 @@
+{% extends "layout.html" %}
+{% block content %}
+<style>
+  .opponent-link {
+    color: #4e4e4e;
+    text-decoration: none;
+    padding: 10px 20px;
+    border-radius: 20px;
+    transition: background-color 0.3s ease;
+  }
+
+  .opponent-link:hover {
+    background-color: #333;
+    color: #fff;
+    text-decoration: none;
+  }
+
+
+  .opponent-container {
+    display: flex;
+    align-items: center;
+  }
+
+  .opponent-container img {
+    margin-right: 10px;
+    border-radius: 50%;
+  }
+
+  .friends {
+    margin-left: auto;
+    /* Move the friends section to the right */
+    max-width: 6000px;
+    /* Adjust the width as needed */
+    max-height: 400px;
+    /* Adjust the height as needed */
+    overflow-y: auto;
+    /* Enable vertical scrolling */
+
+    /* Styling for the scrollbar */
+    scrollbar-width: thin;
+    scrollbar-color: #888 #222;
+  }
+
+  .friends::-webkit-scrollbar {
+    width: 8px;
+    background-color: #222;
+  }
+
+  .friends::-webkit-scrollbar-thumb {
+    background-color: #888;
+  }
+
+  .friends::-webkit-scrollbar-thumb:hover {
+    background-color: #555;
+  }
+</style>
+<div class="content">
+  <form method="POST" action="{{ url_for('chatlist') }}" class="mx-auto w-50">
+    {{ form.hidden_tag() }}
+    <fieldset class="form-group">
+      <legend style="color: white; text-align: center;">
+        <h1>Chats</h1>
+      </legend>
+      <div style="display: flex; flex-direction: column; align-items: center; justify-content: center; height: vh;">
+        <div class="form-group" style="margin-bottom: 20px;">
+          {{ form.opponent(class="form-control", style="width: 200px;", placeholder="Search User") }}
+          <br />
+          <button type="submit" class="btn btn-success" style="height: 40px; width: 200px; font-weight: bold;">{{
+            form.submit.label }}</button>
+        </div>
+      </div>
+    </fieldset>
+  </form>
+  <h2>Your Friends</h2>
+
+  <div class="friends">
+    <br />
+    <div style="color: white;">
+      {% for opponent in opponents %}
+      <div class="opponent-container">
+        <img class="rounded-circle article-img img-fluid profile-pic"
+          src="{{ url_for('static', filename='profile_pics/' + opponent.image_file) }}" alt="Profile Picture">
+        <h4><a class="opponent-link" href="{{ url_for('room', room=opponent.room_id) }}">{{ opponent.username }}</a>
+        </h4>
+      </div>
+      <br />
+      {% endfor %}
+    </div>
+  </div>
+</div>
+{% endblock %}
